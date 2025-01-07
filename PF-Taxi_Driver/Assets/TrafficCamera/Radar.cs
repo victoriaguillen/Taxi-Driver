@@ -19,7 +19,7 @@ public class Radar : PoliceCar
         FindClosestTaxi();
         if (objective != null)
         {
-            Debug.Log("Triggered");
+            //Debug.Log("Triggered");
             notify = TriggerRadar(objective);
             if (notify)
             {

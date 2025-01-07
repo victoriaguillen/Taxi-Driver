@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51905ee438d4d4b4b80c2b4a6f78e860, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  destination: {x: 30, y: 0, z: 60}
+  destination: {x: -10, y: 0, z: 60}
 --- !u!114 &3491577263211804987
 MonoBehaviour:
   m_ObjectHideFlags: 0

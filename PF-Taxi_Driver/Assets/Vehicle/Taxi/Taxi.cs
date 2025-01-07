@@ -1,17 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class Taxi : Vehicle
 {
     //constant string as TypeOfVehicle wont change allong PoliceCar instances.
     private bool isCarryingPassengers = false;
+    private bool isLooking = true;
+    private List<RoadTile> path = null; // Ruta a seguir
+    private RoadTile tile;
+    private RoadObject roadObject;
 
     Passenger pickUp = null;
 
     void Awake()
     {
-        // Inicialización en lugar del constructor
+        
         Initialize("Taxi");
     }
 
@@ -19,16 +26,26 @@ public class Taxi : Vehicle
     void Start()
     {
         SetSpeed(45.0f);
+        roadObject = FindObjectOfType<RoadObject>();
+
+        
     }
 
     void Update()
     {
-
+        tile = roadObject.GetRoadTileAtPosition(transform.position);
+        //tile.HighlightTile();
         if (!isCarryingPassengers)
         {
-            FindClosestPassenger();
+            Passenger objective = FindClosestPassenger();
+            if (objective != null && isLooking)
+            {
+                path = roadObject.FindPath(tile, objective.Tile);
+                isLooking = false;
+            }
             if (pickUp != null)
             {
+                //roadObject.FindPath(tile, pickUp.Tile);
                 Debug.Log("encontrado");
                 InitiateJourney();
             }
@@ -38,10 +55,12 @@ public class Taxi : Vehicle
         {
             CheckFinishedJourney();
         }
+        tile.UnhighlightTile();
+        
     }
 
 
-    void FindClosestPassenger()
+    Passenger FindClosestPassenger()
     {
         Passenger[] passengers = FindObjectsOfType<Passenger>();
         Passenger closestTarget = null;
@@ -65,10 +84,12 @@ public class Taxi : Vehicle
         {
             pickUp = closestTarget;
         }
+        return closestTarget;
     }
 
     void InitiateJourney()
     {
+        path = roadObject.FindPath(roadObject.GetRoadTileAtPosition(transform.position), roadObject.GetRoadTileAtPosition(pickUp.Destination)); // Usar las coordenadas del taxi y el pasajero
         Debug.Log("Iniciando");
         isCarryingPassengers = true;
         Debug.Log($"pickUp: {pickUp.name}, ActiveSelf: {pickUp.gameObject.activeSelf}");
@@ -95,6 +116,7 @@ public class Taxi : Vehicle
         Debug.Log("Finalizada");
         pickUp.gameObject.SetActive(true);
         isCarryingPassengers = false;
+        isLooking = true;
 
         pickUp = null;
     }

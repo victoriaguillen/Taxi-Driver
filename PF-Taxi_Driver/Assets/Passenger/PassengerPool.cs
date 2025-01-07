@@ -13,9 +13,8 @@ public class PassengerPool : MonoBehaviour
 
     [SerializeField][Range(0.1f, 30)] float spawnTimer = 1f;
 
-    // Rango de posiciones aleatorias
-    [SerializeField] Vector3 minSpawnPosition;
-    [SerializeField] Vector3 maxSpawnPosition;
+    // Referencia al RoadObject que gestiona las Tiles
+    [SerializeField] RoadObject roadObject;
 
     GameObject[] pool;
 
@@ -49,8 +48,10 @@ public class PassengerPool : MonoBehaviour
             if (!pool[i].activeInHierarchy)
             {
                 // Asigna una posición aleatoria al objeto activado
-                Vector3 posicion = GetRandomSpawnPosition();
-                pool[i].transform.position = posicion;
+                Vector3 position = GetRandomSpawnPosition();
+                // Vector3 position = new Vector3(5, 0, 60);
+
+                pool[i].transform.position = position;
                 pool[i].SetActive(true);
                 return;
             }
@@ -59,11 +60,19 @@ public class PassengerPool : MonoBehaviour
 
     Vector3 GetRandomSpawnPosition()
     {
-        return new Vector3(
-            Random.Range(minSpawnPosition.x, maxSpawnPosition.x),
-            Random.Range(minSpawnPosition.y, maxSpawnPosition.y),
-            Random.Range(minSpawnPosition.z, maxSpawnPosition.z)
-        );
+        if (roadObject == null)
+        {
+            throw new System.Exception("RoadObject no está asignado en PassengerPool.");
+        }
+
+        // Selecciona aleatoriamente una Tile del RoadObject
+        RoadTile selectedTile = roadObject.GetRandomTile();
+
+        // Obtiene una posición aleatoria válida dentro de la Tile seleccionada
+        //Vector3 randomPoint = selectedTile.GetRandomPlaceablePosition();
+        Vector3 randomPoint = selectedTile.GetRandomPositionWithinCollider();
+
+        return randomPoint;
     }
 
     IEnumerator SpawnPassengers()
