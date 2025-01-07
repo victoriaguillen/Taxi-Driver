@@ -1,23 +1,24 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class TaxiLifeController : MonoBehaviour
 {
-    public float maxHealth = 100f;
+    [SerializeField] public float maxHealth = 100f;
     private float currentHealth;
     public float damagePerCollision = 10f;
     private Slider healthBar;
     private Text lifeText;
-    public string groundTag = "GameTerrane";
 
     void Start()
     {
+
         currentHealth = maxHealth;
 
         healthBar = GetComponentInChildren<Slider>();
-        lifeText = GetComponentInChildren<Text>();
 
         if (healthBar != null)
         {
@@ -25,19 +26,32 @@ public class TaxiLifeController : MonoBehaviour
             healthBar.value = currentHealth;
         }
 
-        if (lifeText != null)
-        {
-            UpdateLifeText();
-        }
-
     }
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (!collision.gameObject.CompareTag(groundTag))
+
+        GameObject collidedObject = collision.gameObject;
+
+        //comparo etiquetas para saber si se trata de un obstaculo
+        if (collidedObject.CompareTag("Obstacle"))
         {
-            TakeDamage(damagePerCollision);
+            Debug.Log("entre");
+            Obstacle obstacle = collision.gameObject.GetComponent<Obstacle>();
+            SpeedControler speedControler = GetComponent<SpeedControler>();
+
+            float damage = obstacle.GetLivePoints();
+            float reduction = obstacle.GetMultiplyFactor();
+            float time = obstacle.GetTime();
+
+            TakeDamage(damage);
+            speedControler.SetReductionTime(time);
+            speedControler.ReduceSpeed(reduction);
         }
+        else
+        {
+           TakeDamage(damagePerCollision);
+        }    
     }
 
     void TakeDamage(float damage)
@@ -53,22 +67,11 @@ public class TaxiLifeController : MonoBehaviour
             healthBar.value = currentHealth;
         }
 
-        // Actualizar el texto del Slider
-        if (lifeText != null)
-        {
-            UpdateLifeText();
-        }
-
         // Si la vida llega a 0, destruir el objeto Taxi
         if (currentHealth <= 0)
         {
             Debug.Log("El Taxi ha sido destruido.");
             Destroy(gameObject);
         }
-    }
-
-    void UpdateLifeText()
-    {
-        lifeText.text = $"{currentHealth}/{maxHealth}";
     }
 }

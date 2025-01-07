@@ -2,14 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-class Weakener : Obstacle
+public class Weakener : Obstacle
 {
-    private const string typeOfVehicle = "Weakener";
-    private const int negLivePoints = 0;
-    private const double multiplyFactor = 0.5;
-    private const int secAcffectedHighSpeed = 30;
+    [SerializeField] private string typeOfObstacle = "Weakener";
+    [SerializeField] private int NegLivePoints = 0;
+    [SerializeField] private float MultiplyFactor = 0.5f;
+    [SerializeField] private int SecAcffectedHighSpeed = 5;
 
-    public Weakener() : base(typeOfVehicle, negLivePoints, multiplyFactor, secAcffectedHighSpeed)
+    void Awake()
     {
+        Initialize(typeOfObstacle, NegLivePoints, MultiplyFactor, SecAcffectedHighSpeed);
     }
 }

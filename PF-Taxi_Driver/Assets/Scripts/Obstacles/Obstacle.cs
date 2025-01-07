@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Obstacle
+public abstract class Obstacle : MonoBehaviour
 {
-    //atributos
     private string typeOfObstacle;
     private int negLivePoints;
-    private double multiplyFactor;
+    private float multiplyFactor;
     private int secAcffectedHighSpeed;
 
-    //constructor
-    public Obstacle(string typeOfObstacle, int negLivePoints, double multiplyFactor, int secAcffectedHighSpeed)
+    // Inicializa las variables
+    public void Initialize(string typeOfObstacle, int negLivePoints, float multiplyFactor, int secAcffectedHighSpeed)
     {
         this.typeOfObstacle = typeOfObstacle;
         this.negLivePoints = negLivePoints;
@@ -19,24 +18,9 @@ public abstract class Obstacle
         this.secAcffectedHighSpeed = secAcffectedHighSpeed;
     }
 
-    public int GetTime()
-    {
-        return secAcffectedHighSpeed;
-    }
-
-    public int GetLivePoints()
-    {
-        return negLivePoints;
-    }
-
-    public double GetMultiplyFactor()
-    {
-        return multiplyFactor;
-    }
-
-    public string GetTypeOfObstacle()
-    {
-        return typeOfObstacle;
-    }
-
+    // Métodos getter
+    public int GetTime() => secAcffectedHighSpeed;
+    public int GetLivePoints() => negLivePoints;
+    public float GetMultiplyFactor() => multiplyFactor;
+    public string GetTypeOfObstacle() => typeOfObstacle;
 }

@@ -1,11 +1,14 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-internal class SolidObstacle : Obstacle
+public class SolidObstacle : Obstacle
 {
-    public SolidObstacle(string typeOfObstacle, int negLivePoints, double multiplyFactor, int secAcffectedHighSpeed)
-        : base(typeOfObstacle, negLivePoints, multiplyFactor, secAcffectedHighSpeed)
-    {
+    [SerializeField] private int NegLivePoints = 20;
+    [SerializeField] private float MultiplyFactor = 0.8f;
+    [SerializeField] private int SecAcffectedHighSpeed = 10;
+
+    protected void Awake()
+    { 
+       string typeOfObstacle = this.GetTypeOfObstacle();
+       Initialize(typeOfObstacle, NegLivePoints, MultiplyFactor, SecAcffectedHighSpeed);
     }
 }
