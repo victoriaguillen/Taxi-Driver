@@ -8,7 +8,7 @@ public class RoadObject : MonoBehaviour
 {
     private List<RoadTile> roadTiles = new List<RoadTile>(); // Lista de Tiles de la carretera
     
-
+    public List<RoadTile> RoadTiles() { return roadTiles; }
     void Awake()
     {
         InitializeRoadTiles();

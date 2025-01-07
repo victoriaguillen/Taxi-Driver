@@ -14,6 +14,7 @@ public class RoadTile : MonoBehaviour
     private bool isHighlighted = false; // Estado del resaltado
     [SerializeField] float customNeighborDistance = 10.0f;
     private MeshCollider meshCollider;
+    public bool HasObstacle { get; set; } = false;
 
     public MeshCollider GetMeshCollider()
     {

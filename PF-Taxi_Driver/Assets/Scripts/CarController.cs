@@ -15,12 +15,14 @@ public class CarController : MonoBehaviour
     public float slipAngle;
     private float speed;
     public AnimationCurve steeringCurve;
+    public float gasInputReducction; // variable para reducir velocidad
 
 
     // Start is called before the first frame update
     void Start()
     {
         playerRB = gameObject.GetComponent<Rigidbody>();
+        gasInputReducction = 1; //al empezar el juego la vel es normal
     }
 
     void Update()
@@ -33,9 +35,14 @@ public class CarController : MonoBehaviour
         ApplyWheelPositions();
     }
 
+    public void SetGasInputReduction(float value)
+    {
+        this.gasInputReducction = value;
+    }
+
     void CheckInput()
     {
-        gasInput = Input.GetAxis("Vertical");
+        gasInput = Input.GetAxis("Vertical") * gasInputReducction;
 
         steeringInput = Input.GetAxis("Horizontal");
 
@@ -121,3 +128,4 @@ public class WheelMeshes
     public MeshRenderer wheelRR;
     public MeshRenderer wheelRL;
 }
+
