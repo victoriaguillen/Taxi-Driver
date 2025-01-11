@@ -12,6 +12,11 @@ public class TaxiLifeController : MonoBehaviour
     private Text lifeText;
     public string groundTag = "Road";
 
+    public float GetCurrentHealth()
+    {
+        return currentHealth;
+    }
+
     void Start()
     {
         currentHealth = maxHealth;
@@ -60,11 +65,11 @@ public class TaxiLifeController : MonoBehaviour
         }
 
         // Si la vida llega a 0, destruir el objeto Taxi
-        if (currentHealth <= 0)
-        {
-            Debug.Log("El Taxi ha sido destruido.");
-            Destroy(gameObject);
-        }
+        //if (currentHealth <= 0)
+        //{
+        //    Debug.Log("El Taxi ha sido destruido.");
+        //    Destroy(gameObject);
+        //}
     }
 
     void UpdateLifeText()

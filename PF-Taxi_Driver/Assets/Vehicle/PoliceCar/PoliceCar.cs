@@ -1,5 +1,8 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
+using System.Collections;
+
 
 public class PoliceCar : Vehicle
 {
@@ -7,10 +10,22 @@ public class PoliceCar : Vehicle
     private Taxi targetTaxi;
     private NavMeshAgent navMeshAgent; // Referencia al NavMeshAgent
 
+    public delegate void PoliceCatchHandler(Taxi taxi);
+    public event Action<Taxi> OnTaxiCaught;
+
+    //variable para almacenar la posicion inicial del taxi
+    private Vector3 initialTaxiPosition;
+
+    private void Start()
+    {
+        initialTaxiPosition = transform.position; // Allmaceno la posicion inicial
+    }
+
     private void Awake()
     {
         Initialize("Police Car");
         navMeshAgent = GetComponent<NavMeshAgent>(); // Obtener el componente NavMeshAgent
+        
     }
 
     private void OnEnable()
@@ -74,7 +89,31 @@ public class PoliceCar : Vehicle
     private void StopChase()
     {
         isChasing = false;
-        targetTaxi = null;
         navMeshAgent.ResetPath(); // Detener el agente de navegación
+
+        if (targetTaxi != null)
+        {
+            Debug.Log("Se ha detenido la persecución del taxi.");
+
+            // Invocar el evento con el taxi que fue capturado
+            OnTaxiCaught?.Invoke(targetTaxi);
+
+            //El policia vuelve a su posicion inicial tras 2 segundos
+            StartCoroutine(WaitAndReturnToInitialPosition());
+
+        }
+
+        targetTaxi = null; // El taxi ya no es el objetivo
+    }
+
+    private IEnumerator WaitAndReturnToInitialPosition()
+    {
+        // Esperar 3 segundos
+        yield return new WaitForSeconds(2f);
+
+        // Volver a la posición inicial del taxi
+        transform.position = initialTaxiPosition;
+
+        Debug.Log("El taxi ha vuelto a su posición inicial.");
     }
 }

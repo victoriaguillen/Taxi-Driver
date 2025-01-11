@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 
 public class Bank : MonoBehaviour
 {
-    [SerializeField] int startingBalance = 150;
+    [SerializeField] int startingBalance = 50;
 
     [SerializeField] int currentBalance;
     public int CurrentBalance { get { return currentBalance; } }
@@ -31,11 +31,6 @@ public class Bank : MonoBehaviour
         currentBalance -= Mathf.Abs(amount);
         UpdateDisplay();
 
-        if (currentBalance < 0)
-        {
-            //Lose the game;
-            ReloadScene();
-        }
     }
 
     void UpdateDisplay()
@@ -43,9 +38,5 @@ public class Bank : MonoBehaviour
         displayBalance.text = "Current cash balance: " + currentBalance;
     }
 
-    void ReloadScene()
-    {
-        Scene currentScene = SceneManager.GetActiveScene();
-        SceneManager.LoadScene(currentScene.buildIndex);
-    }
+   
 }

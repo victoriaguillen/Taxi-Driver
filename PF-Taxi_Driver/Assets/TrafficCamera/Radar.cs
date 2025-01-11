@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class Radar : MonoBehaviour
 {
-    [SerializeField] private float legalSpeed = 50.0f; // Velocidad máxima permitida en km/h
+    [SerializeField] private float legalSpeed = 30.0f; // Velocidad máxima permitida en km/h
     [SerializeField] private float detectionRadius = 100.0f; // Radio de detección en metros
 
     private Taxi detectedTaxi;
