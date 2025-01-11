@@ -1,14 +1,17 @@
 using UnityEngine;
 
-public class SolidObstacle : Obstacle
-{
-    [SerializeField] private int NegLivePoints = 20;
-    [SerializeField] private float MultiplyFactor = 0.8f;
-    [SerializeField] private int SecAcffectedHighSpeed = 10;
 
+public abstract class SolidObstacle : Obstacle
+{
     protected void Awake()
     {
-        string typeOfObstacle = this.GetTypeOfObstacle();
-        Initialize(typeOfObstacle, NegLivePoints, MultiplyFactor, SecAcffectedHighSpeed);
+        string typeOfObstacle = FindTypeOfObstacle(); // Obtén el tipo de la subclase
+        Initialize(typeOfObstacle, 20, 0.8f, 10, 100); // Usa ese tipo para inicializar
+    }
+
+    // Método virtual para que las subclases definan su tipo
+    protected virtual string FindTypeOfObstacle()
+    {
+        return "SolidObstacle"; // Tipo predeterminado
     }
 }

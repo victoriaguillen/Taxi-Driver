@@ -2,24 +2,27 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class ObstacleFactory
+public class ObstacleFactory: MonoBehaviour
 {
-    public abstract Obstacle BuiltObstacle();
-}
-
-
-class FenceFactory : ObstacleFactory
-{
-    public override Obstacle BuiltObstacle()
+    public GameObject CreateObstacle(GameObject prefab, Vector3 position, Quaternion rotation)
     {
-        return new Fence();
+        return Instantiate(prefab, position, rotation);
     }
 }
 
-class WeakenerFactory : ObstacleFactory
-{
-    public override Obstacle BuiltObstacle()
-    {
-        return new Weakener();
-    }
-}
+
+//class FenceFactory : ObstacleFactory
+//{
+//    public override Obstacle BuiltObstacle()
+//    {
+//        return new Fence();
+//    }
+//}
+
+//class WeakenerFactory : ObstacleFactory
+//{
+//    public override Obstacle BuiltObstacle()
+//    {
+//        return new Weakener();
+//    }
+//}

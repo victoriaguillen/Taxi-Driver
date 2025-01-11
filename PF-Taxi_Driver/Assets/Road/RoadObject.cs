@@ -210,4 +210,13 @@ public class RoadObject : MonoBehaviour
         }
     }
 
+    public bool CheckMorePossibleObstacles()
+    {
+        foreach (RoadTile tile in roadTiles )
+        {
+            if (!tile.HasObstacle) { return true; }
+        }
+
+        return false;
+    }
 }

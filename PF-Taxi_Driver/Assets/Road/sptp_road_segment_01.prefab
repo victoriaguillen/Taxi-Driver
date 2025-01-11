@@ -10,7 +10,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 47728677632279925, guid: a9d637658cde10646b78bb4c306bad9a, type: 3}
       propertyPath: customNeighborDistance
-      value: 5
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3973650834100736298, guid: a9d637658cde10646b78bb4c306bad9a, type: 3}
       propertyPath: m_LocalPosition.x

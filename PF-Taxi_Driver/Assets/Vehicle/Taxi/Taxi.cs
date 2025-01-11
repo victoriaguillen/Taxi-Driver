@@ -13,12 +13,16 @@ public class Taxi : Vehicle
     private List<RoadTile> path = null; // Ruta a seguir
     private RoadTile tile;
     private RoadObject roadObject;
+    private Bank bank;
+
+    
+
 
     Passenger pickUp = null;
 
     void Awake()
     {
-        
+        bank = FindObjectOfType<Bank>();
         Initialize("Taxi");
     }
 
@@ -96,7 +100,7 @@ public class Taxi : Vehicle
         pickUp.gameObject.SetActive(false);
         Debug.Log($"pickUp: {pickUp.name}, ActiveSelf: {pickUp.gameObject.activeSelf}");
 
-        pickUp.isActive = false;
+        
 
     }
 
@@ -117,7 +121,12 @@ public class Taxi : Vehicle
         pickUp.gameObject.SetActive(true);
         isCarryingPassengers = false;
         isLooking = true;
+        pickUp.isActive = false;
 
+        // Se recibe el pago
+        bank.Deposit(pickUp.Precio);
+
+        // Se reinicia
         pickUp = null;
     }
 
