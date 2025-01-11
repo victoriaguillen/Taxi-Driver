@@ -53,6 +53,7 @@ public class Taxi : Vehicle
             {
                 //roadObject.FindPath(tile, pickUp.Tile);
                 Debug.Log("encontrado");
+                roadObject.UnhighlightAll();
                 InitiateJourney();
             }
         }
@@ -62,7 +63,7 @@ public class Taxi : Vehicle
             CheckFinishedJourney();
         }
         tile.UnhighlightTile();
-        
+
     }
 
 
@@ -124,12 +125,14 @@ public class Taxi : Vehicle
         isCarryingPassengers = false;
         isLooking = true;
         pickUp.isActive = false;
+        pickUp.SwitchHalo();
 
         // Se recibe el pago
         bank.Deposit(pickUp.Precio);
 
         // Se reinicia
         pickUp = null;
+        roadObject.UnhighlightAll();
     }
 
 }

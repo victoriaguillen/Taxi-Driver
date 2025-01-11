@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8872387569390818336}
   - component: {fileID: -4510073914210017578}
   - component: {fileID: 3491577263211804987}
+  - component: {fileID: 8802561611068195292}
   m_Layer: 0
   m_Name: PassengerObject
   m_TagString: Untagged
@@ -59,6 +60,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54f141628068b9b4493f69f797f003b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!122 &8802561611068195292
+Halo:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4742734618433010720}
+  m_Enabled: 0
+  m_Color:
+    serializedVersion: 2
+    rgba: 4278190847
+  m_Size: 2
 --- !u!1001 &7111192789634817024
 PrefabInstance:
   m_ObjectHideFlags: 0

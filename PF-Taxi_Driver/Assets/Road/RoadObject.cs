@@ -1,6 +1,8 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -168,8 +170,8 @@ public class RoadObject : MonoBehaviour
                 closestTile = roadTile;
                 closestDistance = distance;
             }
-        }
-        
+
+        }     
 
         return closestTile; // Devuelve el más cercano si no se encuentra uno en los bounds
     }
@@ -198,6 +200,15 @@ public class RoadObject : MonoBehaviour
 
     //    return null; // Si no se encuentra un RoadTile, retorna null
     //}
+
+    public void UnhighlightAll()
+    {
+        foreach (RoadTile roadTile in roadTiles)
+        {
+            roadTile.UnhighlightTile();
+        }
+    }
+
 
     public void HighlightPath(List<RoadTile> path)
     {

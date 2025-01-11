@@ -8,8 +8,6 @@ public class PassengerPool : MonoBehaviour
     // Array para almacenar los prefabs
     [SerializeField] GameObject[] passengerPrefabs;
 
-    // Número de pasajeros a generar
-    [SerializeField] int poolSize = 5;
 
     [SerializeField][Range(0.1f, 120)] float spawnTimer = 120f;
 
@@ -56,14 +54,17 @@ public class PassengerPool : MonoBehaviour
             if (!p.isActive)
             {
                 // Asigna una posición aleatoria al objeto activado
-                RoadTile selectedTile = GetRandomSpawnTile();
+                RoadTile selectedTile = roadObject.GetRandomTile();
                 if (selectedTile != null)
                 {
                     Vector3 position = selectedTile.GetRandomPositionWithinCollider();
-                    //Vector3 position = new Vector3(5, 0, 60);
 
+                    // Origen del pasajero
                     pool[i].transform.position = position;
-                    p.Tile = selectedTile;
+                    Vector3 destination = GenerateDestination();
+                    p.Initialize(selectedTile, destination);
+                    
+
                     pool[i].SetActive(true);
                 }
                 // No hay posiciones validas, se sale.
@@ -72,21 +73,13 @@ public class PassengerPool : MonoBehaviour
         }
     }
 
-    RoadTile GetRandomSpawnTile()
+
+    Vector3 GenerateDestination()
     {
-        if (roadObject == null)
-        {
-            throw new System.Exception("RoadObject no está asignado en PassengerPool.");
-        }
-
-        // Selecciona aleatoriamente una Tile del RoadObject
+        // Origen del viaje
         RoadTile selectedTile = roadObject.GetRandomTile();
-
-        // Obtiene una posición aleatoria válida dentro de la Tile seleccionada
-        //Vector3 randomPoint = selectedTile.GetRandomPlaceablePosition();
-
-
-        return selectedTile;
+        Vector3 position = selectedTile.GetRandomPositionWithinCollider();
+        return position;
     }
 
     IEnumerator SpawnPassengers()

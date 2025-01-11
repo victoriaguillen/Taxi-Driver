@@ -7,15 +7,12 @@ using UnityEngine.UIElements;
 public class Passenger : MonoBehaviour
 {
     // destino del pasajero
-    [SerializeField] private Vector3 destination = new Vector3(0,0,0);
 
     private RoadTile tile;
     private Vector3 initialPosition;
 
-    public Vector3 Destination
-    {
-        get { return destination; }
-    }
+    public Vector3 Destination { get; private set; }
+
     public RoadTile Tile
     {
         get { return tile; }
@@ -24,24 +21,36 @@ public class Passenger : MonoBehaviour
 
 
     private Vector3 origin;
-    private RoadObject roadObject;
+
     public bool isActive { get; set; }
     public int Precio { get; private set; }
+    public Behaviour halo {  get; set; }
 
 
     // Start is called before the first frame update
     void OnEnable()
     {
+        halo = (Behaviour)GetComponent("Halo");
+
         isActive = true;
         initialPosition = transform.position;
-        Precio = Random.Range(1, 25);
-        roadObject = FindObjectOfType<RoadObject>();
-        tile = roadObject.GetRoadTileAtPosition(initialPosition);
+        Precio = Random.Range(10, 35);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void Initialize(RoadTile tile, Vector3 destination)
     {
-        
+        Tile = tile;
+        Destination = destination;
+        halo.enabled = true;
     }
+
+    // Interruptor para el halo
+    public void SwitchHalo()
+    {
+        Behaviour halo = (Behaviour)GetComponent("Halo");
+
+        halo.enabled = !halo.enabled;
+    }
+
+
 }
