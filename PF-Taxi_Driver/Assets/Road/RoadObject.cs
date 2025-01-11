@@ -27,6 +27,7 @@ public class RoadObject : MonoBehaviour
                 roadTiles.Add(tile);
             }
         }
+        Debug.Log(roadTiles.Count);
 
         if (roadTiles.Count == 0)
         {
