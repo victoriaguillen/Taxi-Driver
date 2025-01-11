@@ -13,7 +13,9 @@ public class RoadTile : MonoBehaviour
     public List<RoadTile> neighbors; // Lista de vecinos a este RoadTile
     private bool isHighlighted = false; // Estado del resaltado
     [SerializeField] float customNeighborDistance = 10.0f;
+
     private MeshCollider meshCollider;
+    private BoxCollider[] boxColliders;
     public bool HasObstacle { get; set; } = false;
 
     public MeshCollider GetMeshCollider()
@@ -30,7 +32,8 @@ public class RoadTile : MonoBehaviour
     void Start()
     {
         meshCollider = GetComponentInChildren<MeshCollider>();
-        PrecomputeValidPositions();
+        boxColliders = GetComponentsInChildren<BoxCollider>();
+        //PrecomputeValidPositions();
 
     }
 
@@ -77,47 +80,14 @@ public class RoadTile : MonoBehaviour
     // Método para verificar si una posición específica es válida
     public bool CheckIsPlaceable(Vector3 position)
     {
-        return true;
-        if (!meshCollider.bounds.Contains(position))
+        foreach (BoxCollider boxCollider in boxColliders)
         {
-            return true;
+            if (boxCollider.bounds.Contains(position))
+            { return false; }
+
         }
-        return false;
-
-        //return true;
-
-        //Ray ray = new Ray(position + Vector3.up * 5, Vector3.down); // Raycast desde arriba
-        
-
-        //// Realiza el Raycast sin usar LayerMask
-        //if (Physics.Raycast(ray, out hit, 10f))
-        //{
-        //    // Verifica si el objeto impactado tiene la etiqueta "Pavement"
-        //    if (hit.collider.CompareTag("Water"))
-        //    {
-        //        return true;
-        //    }
-        //}
-
-        //return false;
-    
-
-    //Ray ray = new Ray(position + Vector3.up * 5, Vector3.down); // Raycast desde arriba
-    //    RaycastHit hit;
-
-    //    if (Physics.Raycast(ray, out hit, 10f, pavementLayer))
-    //    {
-    //        // Opcional: Verificar si el objeto impactado tiene una etiqueta específica
-    //        if (hit.collider.CompareTag("Pavement"))
-    //        {
-    //            // Aquí puedes añadir lógica adicional para filtrar según la altura del relieve
-    //            return true;
-    //        }
-    //    }
-
-    //    return false;
+        return true;
     }
-
 
     // Resaltar la tile en dorado
     public void HighlightTile()

@@ -150,10 +150,63 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 135234, guid: 2735bdfa72e806248aafddd7a7ab3177, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 4352223537858142570}
+    - targetCorrespondingSourceObject: {fileID: 135234, guid: 2735bdfa72e806248aafddd7a7ab3177, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6384262538622631272}
   m_SourcePrefab: {fileID: 100100000, guid: 2735bdfa72e806248aafddd7a7ab3177, type: 3}
 --- !u!4 &7067294213311876393 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 465408, guid: 2735bdfa72e806248aafddd7a7ab3177, type: 3}
   m_PrefabInstance: {fileID: 7067294213312337705}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &7067294213312202603 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 135234, guid: 2735bdfa72e806248aafddd7a7ab3177, type: 3}
+  m_PrefabInstance: {fileID: 7067294213312337705}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &4352223537858142570
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067294213312202603}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5, y: 7, z: 12}
+  m_Center: {x: -2.5, y: 2, z: -1}
+--- !u!65 &6384262538622631272
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7067294213312202603}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 12, y: 7, z: 5}
+  m_Center: {x: 1, y: 2, z: 2.5}

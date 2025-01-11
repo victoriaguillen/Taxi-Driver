@@ -57,9 +57,15 @@ public class ObstacleManager : MonoBehaviour
         int price = obstacle.GetPriceToDestroy(); // Obtener el precio para destruirlo
         if (bank.CurrentBalance>=price)
         {
+            NoticeEvents.RaiseNotice($"Coste de {price.ToString()}. Obstáculo destruído.");
+            
             obstacle.AssociatedTile.HasObstacle = false;
             bank.Withdraw(price);
             Destroy(obstacle.gameObject); // Destruir el obstáculo
+        }
+        else
+        {
+            NoticeEvents.RaiseNotice($"No tienes suficiente dinero para destruir este obstáculo.");
         }
     }
 
@@ -121,11 +127,5 @@ public class ObstacleManager : MonoBehaviour
 
     }
 
-    private void DestroyObstable(Obstacle obstacle)
-    {
-        // El tile vuelve a estar disponible para crear nuevos obstaculos
-
-
-    }
 }
 

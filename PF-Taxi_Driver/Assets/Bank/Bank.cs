@@ -9,7 +9,7 @@ public class Bank : MonoBehaviour
 {
     [SerializeField] int startingBalance = 150;
 
-    [SerializeField] int currentBalance;
+    private int currentBalance;
     public int CurrentBalance { get { return currentBalance; } }
 
     [SerializeField] TextMeshProUGUI displayBalance;
