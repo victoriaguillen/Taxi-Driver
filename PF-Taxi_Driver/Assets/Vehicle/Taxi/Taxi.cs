@@ -12,6 +12,8 @@ public class Taxi : Vehicle
     private bool isLooking = true;
     private List<RoadTile> path = null; // Ruta a seguir
     private RoadTile tile;
+
+    private Passenger objective;
     private RoadObject roadObject;
     private Bank bank;
 
@@ -41,7 +43,7 @@ public class Taxi : Vehicle
         //tile.HighlightTile();
         if (!isCarryingPassengers)
         {
-            Passenger objective = FindClosestPassenger();
+            objective = FindClosestPassenger();
             if (objective != null && isLooking)
             {
                 path = roadObject.FindPath(tile, objective.Tile);
