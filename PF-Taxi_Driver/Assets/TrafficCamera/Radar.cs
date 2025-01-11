@@ -29,6 +29,10 @@ public class Radar : MonoBehaviour
         if (taxiRigidbody != null)
         {
             float speed = taxiRigidbody.velocity.magnitude * 3.6f; // Convierte de m/s a km/h
+            if (speed > legalSpeed)
+            {
+                NoticeEvents.RaiseNotice($"¡El taxi está excediendo el límite de velocidad permitido ({legalSpeed} km/h)!");
+            }
             return speed > legalSpeed;
         }
 

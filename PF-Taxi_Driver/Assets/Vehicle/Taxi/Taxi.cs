@@ -17,8 +17,6 @@ public class Taxi : Vehicle
     private RoadObject roadObject;
     private Bank bank;
 
-    
-
 
     Passenger pickUp = null;
 
@@ -97,13 +95,12 @@ public class Taxi : Vehicle
     void InitiateJourney()
     {
         path = roadObject.FindPath(roadObject.GetRoadTileAtPosition(transform.position), roadObject.GetRoadTileAtPosition(pickUp.Destination)); // Usar las coordenadas del taxi y el pasajero
-        Debug.Log("Iniciando");
-        isCarryingPassengers = true;
-        Debug.Log($"pickUp: {pickUp.name}, ActiveSelf: {pickUp.gameObject.activeSelf}");
-        pickUp.gameObject.SetActive(false);
-        Debug.Log($"pickUp: {pickUp.name}, ActiveSelf: {pickUp.gameObject.activeSelf}");
 
-        
+        isCarryingPassengers = true;
+        pickUp.gameObject.SetActive(false);
+        NoticeEvents.RaiseNotice($"Has recogido a un pasajero. ¡Destino: {pickUp.Destination}!");
+
+
 
     }
 
@@ -130,9 +127,14 @@ public class Taxi : Vehicle
         // Se recibe el pago
         bank.Deposit(pickUp.Precio);
 
+        // Mostrar mensaje de llegada
+        NoticeEvents.RaiseNotice($"Has dejado al pasajero en su destino. Ganaste ${pickUp.Precio}!");
+
         // Se reinicia
         pickUp = null;
         roadObject.UnhighlightAll();
+
+
     }
 
 }

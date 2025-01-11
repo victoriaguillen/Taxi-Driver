@@ -28,18 +28,17 @@ public class GameManager : MonoBehaviour
 
     public void HandlePoliceCatch(Taxi taxi)
     {
-        Debug.Log("ACTION");
         if (bank.CurrentBalance >= fineAmount)
         {
             // El taxi tiene suficiente dinero para pagar la multa
             bank.Withdraw(fineAmount);
-            Debug.Log("El Taxi pagó la multa al coche de policía. El juego continúa.");
+            NoticeEvents.RaiseNotice($"El Taxi pagó la multa al coche de policía. El juego continúa.");
         }
         else
         {
             // El taxi no tiene suficiente dinero, termina el juego
-            Debug.Log("El Taxi no tiene suficiente dinero para pagar la multa. Fin del juego.");
             EndGame();
+            NoticeEvents.RaiseNotice($"El Taxi no tiene suficiente dinero para pagar la multa. Fin del juego.");
         }
     }
 
@@ -48,7 +47,7 @@ public class GameManager : MonoBehaviour
         // Verifica si el taxi se queda sin vida
         if (taxiLifeController != null && taxiLifeController.GetCurrentHealth() <= 0)
         {
-            Debug.Log("El Taxi se ha quedado sin vida. Fin del juego.");
+            NoticeEvents.RaiseNotice($"El Taxi se ha quedado sin vida. Fin del juego.");
             EndGame();
         }
     }
@@ -58,7 +57,7 @@ public class GameManager : MonoBehaviour
     private void EndGame()
     {
         // Opcional: Mostrar mensaje de fin del juego en pantalla
-        Debug.Log("Recargando escena...");
+        NoticeEvents.RaiseNotice($"Recargando escena...");
 
         // Reinicia la escena actual
         ReloadScene();

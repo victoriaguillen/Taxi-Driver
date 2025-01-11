@@ -14,11 +14,11 @@ public class PoliceCar : Vehicle
     public event Action<Taxi> OnTaxiCaught;
 
     //variable para almacenar la posicion inicial del taxi
-    private Vector3 initialTaxiPosition;
+    private Vector3 initialPolicePosition;
 
     private void Start()
     {
-        initialTaxiPosition = transform.position; // Allmaceno la posicion inicial
+        initialPolicePosition = transform.position; // Allmaceno la posicion inicial
     }
 
     private void Awake()
@@ -52,7 +52,7 @@ public class PoliceCar : Vehicle
         {
             targetTaxi = taxi;
             isChasing = true;
-            Debug.Log($"{GetPlate()} comienza a perseguir al taxi {taxi.GetPlate()}.");
+            NoticeEvents.RaiseNotice($"{GetPlate()} comienza a perseguir al taxi {taxi.GetPlate()}.");
 
             // Establecer el destino del NavMeshAgent
             navMeshAgent.SetDestination(targetTaxi.transform.position);
@@ -81,7 +81,7 @@ public class PoliceCar : Vehicle
         float distanceToTaxi = Vector3.Distance(transform.position, targetTaxi.transform.position);
         if (distanceToTaxi < 2.0f) // Distancia mínima para detener la persecución
         {
-            Debug.Log($"{GetPlate()} ha alcanzado al taxi {targetTaxi.GetPlate()}.");
+            NoticeEvents.RaiseNotice($"{GetPlate()} ha alcanzado al taxi {targetTaxi.GetPlate()}.");
             StopChase();
         }
     }
@@ -93,8 +93,6 @@ public class PoliceCar : Vehicle
 
         if (targetTaxi != null)
         {
-            Debug.Log("Se ha detenido la persecución del taxi.");
-
             // Invocar el evento con el taxi que fue capturado
             OnTaxiCaught?.Invoke(targetTaxi);
 
@@ -111,9 +109,8 @@ public class PoliceCar : Vehicle
         // Esperar 3 segundos
         yield return new WaitForSeconds(2f);
 
-        // Volver a la posición inicial del taxi
-        transform.position = initialTaxiPosition;
+        // Volver a la posición inicial del policia
+        transform.position = initialPolicePosition;
 
-        Debug.Log("El taxi ha vuelto a su posición inicial.");
     }
 }

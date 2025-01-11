@@ -62,10 +62,7 @@ public class RoadObject : MonoBehaviour
                     neighbors.Add(otherTile);
                 }
             }
-            if (neighbors.Count == 0) 
-            { 
-                //Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaa");
-            }
+
             tile.SetNeighbors(neighbors);
         }
     }
