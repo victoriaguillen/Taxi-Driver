@@ -133,10 +133,63 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 198642, guid: 581d1ebf3352b5346846e02aec6d28e0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5647981551619973671}
+    - targetCorrespondingSourceObject: {fileID: 198642, guid: 581d1ebf3352b5346846e02aec6d28e0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1471825213742506082}
   m_SourcePrefab: {fileID: 100100000, guid: 581d1ebf3352b5346846e02aec6d28e0, type: 3}
 --- !u!4 &5373127914688199743 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 430114, guid: 581d1ebf3352b5346846e02aec6d28e0, type: 3}
   m_PrefabInstance: {fileID: 5373127914688556061}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5373127914688359407 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 198642, guid: 581d1ebf3352b5346846e02aec6d28e0, type: 3}
+  m_PrefabInstance: {fileID: 5373127914688556061}
+  m_PrefabAsset: {fileID: 0}
+--- !u!65 &5647981551619973671
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373127914688359407}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 14.000002, y: 7, z: 5}
+  m_Center: {x: 7.000001, y: 2, z: -2.5}
+--- !u!65 &1471825213742506082
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5373127914688359407}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 5, y: 7, z: 14}
+  m_Center: {x: 2.5, y: 2, z: -7}
