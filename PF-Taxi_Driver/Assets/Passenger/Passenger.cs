@@ -26,15 +26,15 @@ public class Passenger : MonoBehaviour
     private Vector3 origin;
     private RoadObject roadObject;
     public bool isActive { get; set; }
-
+    public int Precio { get; private set; }
 
 
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         isActive = true;
         initialPosition = transform.position;
-
+        Precio = Random.Range(1, 25);
         roadObject = FindObjectOfType<RoadObject>();
         tile = roadObject.GetRoadTileAtPosition(initialPosition);
     }

@@ -4,10 +4,9 @@ using UnityEngine;
 
 public class Fence : SolidObstacle
 {
-    [SerializeField] private string TypeOfObstacle = "Fence";
-
-    protected new void Awake()
+    // Sobrescribe para definir el tipo específico de Fence
+    protected override string FindTypeOfObstacle()
     {
-        base.Awake();
+        return "Fence";
     }
 }

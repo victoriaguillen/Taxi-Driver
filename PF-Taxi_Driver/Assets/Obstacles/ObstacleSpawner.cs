@@ -2,15 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ObstacleSpawner : MonoBehaviour
+
+public class ObstacleManager : MonoBehaviour
 {
     // Tipos de prefabs de los obstáculos
-    [SerializeField] private GameObject weakenerPrefab;
-    [SerializeField] private GameObject fencePrefab;
-    private List<GameObject> obstacles = new List<GameObject>();
+    [SerializeField] GameObject[] obstaclePrefabs;
+    [SerializeField] ObstacleFactory obstacleFactory;
+
 
     //// Posiciones válidas
     private List<RoadTile> validPositions;
+    private List<GameObject> obstaculosEnTablero;
 
     // Referencia al RoadObject que gestiona las Tiles
     [SerializeField] RoadObject roadObject;
@@ -20,9 +22,12 @@ public class ObstacleSpawner : MonoBehaviour
     [SerializeField] private float minSpawnInterval = 2f;      // Tiempo mínimo de aparición
     [SerializeField] private float spawnIntervalReduction = 1f; // Reducción del tiempo de aparición cada 20 segundos
 
+    Bank bank;
+
     private float spawnInterval;
     private float spawnTime;
     private float elapsedTime;
+
 
     // Variable de control para verificar posiciones válidas
     private bool hasValidPositions = true;
@@ -31,10 +36,33 @@ public class ObstacleSpawner : MonoBehaviour
     {
         // Inicializar variables
         validPositions = roadObject.RoadTiles();
-        obstacles.Add(weakenerPrefab);
-        obstacles.Add(fencePrefab);
         spawnInterval = initialSpawnInterval;
+        obstaculosEnTablero = new List<GameObject>();
+        bank = FindObjectOfType<Bank>();
+
+        // Suscribir al evento
+        Obstacle.OnObstacleClicked += HandleObstacleClicked;
     }
+
+    void OnDestroy()
+    {
+        Obstacle.OnObstacleClicked -= HandleObstacleClicked; // Desuscribir al evento
+    }
+
+    private void HandleObstacleClicked(Obstacle obstacle)
+    {
+        if (obstacle == null) return;
+
+        // Si el banco tiene suficiente dinero para destruir el obstáculo
+        int price = obstacle.GetPriceToDestroy(); // Obtener el precio para destruirlo
+        if (bank.CurrentBalance>=price)
+        {
+            obstacle.AssociatedTile.HasObstacle = false;
+            bank.Withdraw(price);
+            Destroy(obstacle.gameObject); // Destruir el obstáculo
+        }
+    }
+
 
     void Update()
     {
@@ -59,34 +87,45 @@ public class ObstacleSpawner : MonoBehaviour
         if (spawnTime > spawnInterval)
         {
             spawnTime = 0;
-            CreateObstacle();
+            GenerateObstacle();
         }
+
     }
 
-    private void CreateObstacle()
+    private void GenerateObstacle()
     {
-        // Verificar si quedan posiciones válidas
-        if (validPositions.Count == 0)
-        {
-            hasValidPositions = false; // Actualizar la variable de control
-            Debug.LogWarning("No hay más posiciones válidas disponibles.");
-            return;
-        }
 
         // Elegir aleatoriamente un índice en la lista de posiciones válidas
-        int randomIndex = Random.Range(0, validPositions.Count);
-        RoadTile randomPositionObject = validPositions[randomIndex];
-        Vector3 randomPosition = randomPositionObject.transform.position;
+        RoadTile tile = roadObject.GetRandomTile();
+
+        // Si ya tiene obstaculo, se busca otra
+        while (tile.HasObstacle)
+        {
+            tile = roadObject.GetRandomTile();
+        }
 
 
-        // Eliminar la posición utilizada de la lista
-        validPositions.RemoveAt(randomIndex);
+        // Actualizar el parametro en el tile
+        tile.HasObstacle = true;
 
         // Elegir aleatoriamente el objeto que se va a crear
-        GameObject randomObstacle = obstacles[Random.Range(0, obstacles.Count)];
+        GameObject prefab = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
+        Vector3 position = tile.transform.position;
+        Quaternion rotation = tile.transform.rotation;
 
-        // Crear el obstáculo en la escena
-        Instantiate(randomObstacle, randomPosition, Quaternion.identity);
+        GameObject randomObstacle = obstacleFactory.CreateObstacle(prefab, position, rotation);
+        Obstacle obstacleComponent = randomObstacle.GetComponent<Obstacle>();
+        obstacleComponent.AssociatedTile = tile;
+
+        hasValidPositions = roadObject.CheckMorePossibleObstacles();
+
+    }
+
+    private void DestroyObstable(Obstacle obstacle)
+    {
+        // El tile vuelve a estar disponible para crear nuevos obstaculos
+
+
     }
 }
 
