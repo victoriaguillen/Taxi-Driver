@@ -1,17 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
+using System.Collections;
+using UnityEngine;
 
 public class PassengerPool : MonoBehaviour
 {
     // Array para almacenar los prefabs
-    [SerializeField] List<GameObject> passengerPrefabs = new List<GameObject>();
+    [SerializeField] GameObject[] passengerPrefabs;
 
     // Número de pasajeros a generar
     [SerializeField] int poolSize = 5;
 
-    [SerializeField][Range(0.1f, 30)] float spawnTimer = 1f;
+    [SerializeField][Range(0.1f, 120)] float spawnTimer = 120f;
 
     // Referencia al RoadObject que gestiona las Tiles
     [SerializeField] RoadObject roadObject;
@@ -30,35 +29,50 @@ public class PassengerPool : MonoBehaviour
 
     void PopulatePool()
     {
-        pool = new GameObject[poolSize];
-
-        for (int i = 0; i < pool.Length; i++)
+        if (passengerPrefabs.Length == 0)
         {
-            // Instancia un prefab aleatorio del array
-            int randomPrefabIndex = Random.Range(0, passengerPrefabs.Count);
-            pool[i] = Instantiate(passengerPrefabs[randomPrefabIndex], transform);
+            Debug.LogWarning("PassengerPrefabs está vacío. Por favor, agrega prefabs al listado.");
+            return;
+        }
+
+        pool = new GameObject[passengerPrefabs.Length];
+
+        for (int i = 0; i < passengerPrefabs.Length; i++)
+        {
+            pool[i] = Instantiate(passengerPrefabs[i], transform);
             pool[i].SetActive(false);
+            Passenger p = pool[i].GetComponent<Passenger>();
+            p.isActive = false;
         }
     }
 
     void EnableObjectInPool()
     {
-        for (int i = 0; i < pool.Length; i++)
+        for (int i = 0; i < passengerPrefabs.Length; i++)
         {
-            if (!pool[i].activeInHierarchy)
+            Passenger p = pool[i].GetComponent<Passenger>();
+            if (!p.isActive)
             {
                 // Asigna una posición aleatoria al objeto activado
-                Vector3 position = GetRandomSpawnPosition();
-                // Vector3 position = new Vector3(5, 0, 60);
+                RoadTile selectedTile = GetRandomSpawnTile();
+                if (selectedTile != null) 
+                {
+                    Vector3 position = selectedTile.GetRandomPositionWithinCollider();
 
-                pool[i].transform.position = position;
-                pool[i].SetActive(true);
+                    Debug.Log("blanca");
+                    //Vector3 position = new Vector3(5, 0, 60);
+
+                    pool[i].transform.position = position;
+                    p.Tile = selectedTile;
+                    pool[i].SetActive(true);
+                }
+                // No hay posiciones validas, se sale.
                 return;
             }
         }
     }
 
-    Vector3 GetRandomSpawnPosition()
+    RoadTile GetRandomSpawnTile()
     {
         if (roadObject == null)
         {
@@ -70,9 +84,9 @@ public class PassengerPool : MonoBehaviour
 
         // Obtiene una posición aleatoria válida dentro de la Tile seleccionada
         //Vector3 randomPoint = selectedTile.GetRandomPlaceablePosition();
-        Vector3 randomPoint = selectedTile.GetRandomPositionWithinCollider();
 
-        return randomPoint;
+
+        return selectedTile;
     }
 
     IEnumerator SpawnPassengers()

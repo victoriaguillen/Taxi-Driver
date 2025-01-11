@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 public class Passenger : MonoBehaviour
 {
     // destino del pasajero
-    [SerializeField] private Vector3 destination = new Vector3(0,0,0);
+    [SerializeField] private Vector3 destination = new Vector3(0, 0, 0);
 
     private RoadTile tile;
     private Vector3 initialPosition;
@@ -28,20 +28,19 @@ public class Passenger : MonoBehaviour
     public bool isActive { get; set; }
 
 
-
     // Start is called before the first frame update
-    void Start()
+    void OnEnable()
     {
         isActive = true;
         initialPosition = transform.position;
 
         roadObject = FindObjectOfType<RoadObject>();
-        tile = roadObject.GetRoadTileAtPosition(initialPosition);
+        //tile = roadObject.GetRoadTileAtPosition(initialPosition);
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
     }
 }

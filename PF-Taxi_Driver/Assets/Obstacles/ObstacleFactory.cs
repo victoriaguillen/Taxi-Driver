@@ -4,22 +4,22 @@ using UnityEngine;
 
 public abstract class ObstacleFactory
 {
-    public abstract Obstacle BuiltObstacle();
+    public abstract GameObject CreateObstacle();
 }
 
 
-class FenceFactory : ObstacleFactory
-{
-    public override Obstacle BuiltObstacle()
-    {
-        return new Fence();
-    }
-}
+//class FenceFactory : ObstacleFactory
+//{
+//    public override Obstacle CreateObstacle()
+//    {
+//        return new Fence();
+//    }
+//}
 
-class WeakenerFactory : ObstacleFactory
-{
-    public override Obstacle BuiltObstacle()
-    {
-        return new Weakener();
-    }
-}
+//class WeakenerFactory : ObstacleFactory
+//{
+//    public override Obstacle CreateObstacle()
+//    {
+//        return new Weakener();
+//    }
+//}

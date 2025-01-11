@@ -5,9 +5,12 @@ using UnityEngine;
 public class ObstacleSpawner : MonoBehaviour
 {
     // Tipos de prefabs de los obstáculos
-    [SerializeField] private GameObject weakenerPrefab;
-    [SerializeField] private GameObject fencePrefab;
-    private List<GameObject> obstacles = new List<GameObject>();
+    [SerializeField] GameObject[] obstaclePrefabs;
+    [SerializeField] ObstacleFactory obstacleFactory;
+
+    //[SerializeField] private GameObject weakenerPrefab;
+    //[SerializeField] private GameObject fencePrefab;
+    //private List<GameObject> obstacles = new List<GameObject>();
 
     //// Posiciones válidas
     private List<RoadTile> validPositions;
@@ -22,17 +25,18 @@ public class ObstacleSpawner : MonoBehaviour
 
     private float spawnInterval;
     private float spawnTime;
+    private bool hasValidPositions;
     private float elapsedTime;
 
     // Variable de control para verificar posiciones válidas
-    private bool hasValidPositions = true;
+    //private bool hasValidPositions = true;
 
     void Start()
     {
         // Inicializar variables
         validPositions = roadObject.RoadTiles();
-        obstacles.Add(weakenerPrefab);
-        obstacles.Add(fencePrefab);
+        //obstacles.Add(weakenerPrefab);
+        //obstacles.Add(fencePrefab);
         spawnInterval = initialSpawnInterval;
     }
 
@@ -59,11 +63,12 @@ public class ObstacleSpawner : MonoBehaviour
         if (spawnTime > spawnInterval)
         {
             spawnTime = 0;
-            CreateObstacle();
+            
+
         }
     }
 
-    private void CreateObstacle()
+    private void GenerateObstacle()
     {
         // Verificar si quedan posiciones válidas
         if (validPositions.Count == 0)
@@ -73,20 +78,22 @@ public class ObstacleSpawner : MonoBehaviour
             return;
         }
 
-        // Elegir aleatoriamente un índice en la lista de posiciones válidas
-        int randomIndex = Random.Range(0, validPositions.Count);
-        RoadTile randomPositionObject = validPositions[randomIndex];
-        Vector3 randomPosition = randomPositionObject.transform.position;
+        // Elegir aleatoriamente una posición válida
+        RoadTile tile = roadObject.GetRandomTile();
+        while (!tile.isObstaclePlaceable)
+        {
+            tile = roadObject.GetRandomTile();
+        }
 
 
         // Eliminar la posición utilizada de la lista
-        validPositions.RemoveAt(randomIndex);
+        tile.isObstaclePlaceable = false;
 
         // Elegir aleatoriamente el objeto que se va a crear
-        GameObject randomObstacle = obstacles[Random.Range(0, obstacles.Count)];
+        GameObject randomObstacle = obstaclePrefabs[Random.Range(0, obstaclePrefabs.Length)];
 
         // Crear el obstáculo en la escena
-        Instantiate(randomObstacle, randomPosition, Quaternion.identity);
+        Instantiate(randomObstacle, tile.transform.position, Quaternion.identity);
     }
 }
 

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -34,28 +35,31 @@ public class Taxi : Vehicle
     void Update()
     {
         tile = roadObject.GetRoadTileAtPosition(transform.position);
-        //tile.HighlightTile();
-        if (!isCarryingPassengers)
-        {
-            Passenger objective = FindClosestPassenger();
-            if (objective != null && isLooking)
-            {
-                path = roadObject.FindPath(tile, objective.Tile);
-                isLooking = false;
-            }
-            if (pickUp != null)
-            {
-                //roadObject.FindPath(tile, pickUp.Tile);
-                Debug.Log("encontrado");
-                InitiateJourney();
-            }
-        }
+        tile.HighlightTile();
+        
+        //if (!isCarryingPassengers)
+        //{
+        //    Passenger objective = FindClosestPassenger();
+        //    if (objective != null && isLooking)
+        //    {
+        //        path = roadObject.FindPath(tile, objective.Tile);
+        //        isLooking = false;
+        //    }
+        //    if (objective != null && objective.Tile == tile) { pickUp = objective; }
 
-        else
-        {
-            CheckFinishedJourney();
-        }
-        tile.UnhighlightTile();
+        //    if (pickUp != null)
+        //    {
+        //        //roadObject.FindPath(tile, pickUp.Tile);
+        //        Debug.Log("encontrado");
+        //        InitiateJourney();
+        //    }
+        //}
+
+        //else
+        //{
+        //    CheckFinishedJourney();
+        //}
+        //tile.UnhighlightTile();
         
     }
 
@@ -79,10 +83,6 @@ public class Taxi : Vehicle
                 }
             }
 
-        }
-        if (maxDistance <= Threshold)
-        {
-            pickUp = closestTarget;
         }
         return closestTarget;
     }
