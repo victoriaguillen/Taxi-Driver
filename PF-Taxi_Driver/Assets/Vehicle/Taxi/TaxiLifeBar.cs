@@ -10,7 +10,7 @@ public class TaxiLifeController : MonoBehaviour
     public float damagePerCollision = 10f;
     private Slider healthBar;
     private Text lifeText;
-    public string groundTag = "GameTerrane";
+    public string groundTag = "Road";
 
     void Start()
     {

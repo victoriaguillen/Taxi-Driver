@@ -1,65 +1,38 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class Radar : PoliceCar
+public class Radar : MonoBehaviour
 {
-    [SerializeField] float legalSpeed = 50.0f;
-    Taxi objective = null;
-    bool notify = false;
+    [SerializeField] private float legalSpeed = 50.0f; // Velocidad máxima permitida en km/h
+    [SerializeField] private float detectionRadius = 100.0f; // Radio de detección en metros
 
-    void Start()
-    {
-            
-    }
+    private Taxi detectedTaxi;
 
-    // Update is called once per frame
-    void Update()
+
+    public Taxi DetectTaxi()
     {
-        FindClosestTaxi();
-        if (objective != null)
+        Taxi taxi = FindObjectOfType<Taxi>();
+        if (taxi != null)
         {
-            //Debug.Log("Triggered");
-            notify = TriggerRadar(objective);
-            if (notify)
+            float distanceToTaxi = Vector3.Distance(transform.position, taxi.transform.position);
+            if (distanceToTaxi <= detectionRadius)
             {
-
+                return taxi;
             }
         }
-        
+
+        return null;
     }
 
-    void FindClosestTaxi()
+    public bool MeasureSpeed(Taxi taxi)
     {
-        Taxi[] taxis = FindObjectsOfType<Taxi>();
-        Taxi closestTaxi = null;
-        float maxDistance = Mathf.Infinity;
-
-        foreach (Taxi taxi in taxis)
+        Rigidbody taxiRigidbody = taxi.GetComponent<Rigidbody>();
+        if (taxiRigidbody != null)
         {
-
-            float targetDistance = Vector3.Distance(transform.position, taxi.transform.position);
-
-            if (targetDistance < maxDistance)
-            {
-                closestTaxi = taxi;
-                maxDistance = targetDistance;
-            }
-
+            float speed = taxiRigidbody.velocity.magnitude * 3.6f; // Convierte de m/s a km/h
+            return speed > legalSpeed;
         }
-        if (maxDistance <= Threshold)
-        {
-            objective = closestTaxi;
-        }
-    }
 
-    public bool TriggerRadar(Vehicle vehicle)
-    {
-        float legalSpeed = 0f;
-        string plate = vehicle.GetPlate();
-        float speed = vehicle.GetSpeed();
-
-        if (speed > legalSpeed) { return true; }
-        else { return false; }
+        Debug.LogWarning("El Taxi no tiene un Rigidbody asignado.");
+        return false;
     }
 }

@@ -27,7 +27,6 @@ public class RoadObject : MonoBehaviour
                 roadTiles.Add(tile);
             }
         }
-        Debug.Log(roadTiles.Count);
 
         if (roadTiles.Count == 0)
         {
@@ -106,7 +105,6 @@ public class RoadObject : MonoBehaviour
                 }
                 path.Insert(0, startTile); // Insertamos el punto de inicio
                 HighlightPath(path); // Iluminamos las tiles del camino
-                Debug.Log(path);
                 return path;
             }
 
@@ -120,7 +118,6 @@ public class RoadObject : MonoBehaviour
                 }
             }
         }
-        Debug.Log("¡Hola, consola!");
         return null; // Si no hay camino
     }
 
@@ -160,7 +157,6 @@ public class RoadObject : MonoBehaviour
             // Verificar si el roadTile tiene un collider inicializado
             if (roadTile.GetMeshCollider() != null && roadTile.GetMeshCollider().bounds.Contains(position))
             {
-                Debug.Log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
                 return roadTile; // Devuelve directamente si la posición está dentro del bounds del collider
             }
 

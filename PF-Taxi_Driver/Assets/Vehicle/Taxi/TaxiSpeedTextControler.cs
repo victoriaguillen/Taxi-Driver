@@ -10,17 +10,14 @@ public class UpdateTaxiSpeed : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        // Obtén la referencia al Rigidbody y al CarController
         taxiRigidbody = GetComponent<Rigidbody>();
         carController = GetComponent<CarController>();
 
-        // Asegúrate de que los componentes necesarios estén presentes
         if (taxiRigidbody == null || carController == null)
         {
             Debug.LogError("Faltan componentes en el taxi. Asegúrate de que este script esté en el taxi con los componentes necesarios.");
         }
 
-        // Verifica que se haya asignado el TextMeshProUGUI desde el inspector
         if (speedText == null)
         {
             Debug.LogError("No se asignó un TextMeshProUGUI al script. Arrastra el componente desde el Canvas al inspector.");
